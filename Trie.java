@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// I tried all over the carpet 
+// :< 
 public class Trie {
     private class TrieNode {
         HashMap<Character, TrieNode> nodeMap = new HashMap<>();

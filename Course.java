@@ -46,15 +46,15 @@ public class Course {
                 transferability = Transfer.NON_TRANSFERABLE;
                 break;
         }
-        try{
+        try {
             units = Float.parseFloat(arr[3]);
-        } catch(NumberFormatException error) {
+        } catch (NumberFormatException error) {
             System.out.println("Invalid float on this line \"" + line + "\" exiting program..");
             System.exit(1);
         }
     }
 
-    // Proper class design is such a drag.. 
+    // Proper class design is such a drag..
     public String getCourseId() {
         return courseId;
     }
