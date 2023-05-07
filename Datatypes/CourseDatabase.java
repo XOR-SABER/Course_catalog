@@ -1,13 +1,17 @@
-import java.util.HashMap;
+package Datatypes;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Catalog extends Database<Course> {
+import Datatypes.DataStructures.Database;
+import Datatypes.DataStructures.Trie;
+
+public class CourseDatabase extends Database<Course> {
     public Trie Course_trie;
 
-    Catalog(String fileName) {
-        Database = new HashMap<>();
+    public CourseDatabase(String fileName) {
+        super();
         Course_trie = new Trie();
         try {
             File courseFile = new File(fileName);
@@ -27,5 +31,12 @@ public class Catalog extends Database<Course> {
             // No file exit the program..
             System.exit(1);
         }
+    }
+
+    @Override
+    public boolean addData(String id, Course new_data) {
+        Database.put(id, new_data);
+        Course_trie.insert(id);
+        return true;
     }
 }

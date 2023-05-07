@@ -1,0 +1,8 @@
+ALEX : DOB: 03/03/2001
+	ID: A12
+
+CIT-28 : CLIENT/SERVER DATABASES
+	Transferable to CSU only Code: 1
+	Units: 3.000000
+
+TOTAL UNITS: 3.0

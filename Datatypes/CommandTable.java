@@ -1,42 +1,62 @@
+package Datatypes;
+
 import java.util.function.Consumer;
+
+import Datatypes.DataStructures.Trie;
+
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.HashMap;
 
-public class Command_table {
+public class CommandTable {
     // Storing functions in a dictionary of functions for quick access..
+    private TreeMap<String, String> help_map;
     private HashMap<String, Consumer<Void>> void_function_table;
     private HashMap<String, Consumer<String>> string_function_table;
+    private HashMap<String, Consumer<String[]>> line_function_table;
+    // private HashMap<String, tooltip> help_map;
     private Trie commandTrie;
 
-    Command_table() {
+    public CommandTable() {
         commandTrie = new Trie();
+        help_map = new TreeMap<>();
         void_function_table = new HashMap<>();
         string_function_table = new HashMap<>();
+        line_function_table = new HashMap<>();
 
         // intialize help here..
-        addVoidCommand("HELP", this::help);
+        addVoidCommand(
+                "HELP", this::help,
+                "Try HELP {command names}.");
+        addStringCommand(
+                "HELP", this::help,
+                "Try HELP {command names}.");
     }
 
     // Adds commands that have a void parameter
-    void addVoidCommand(String command_name, Consumer<Void> func) {
+    public void addVoidCommand(String command_name, Consumer<Void> func, String tool_tip) {
         commandTrie.insert(command_name);
         void_function_table.put(command_name, func);
+        help_map.put(command_name, tool_tip);
     }
 
     // Adds commands that have a string parameter
-    void addStringCommand(String command_name, Consumer<String> func) {
+    public void addStringCommand(String command_name, Consumer<String> func, String tool_tip) {
         commandTrie.insert(command_name);
         string_function_table.put(command_name, func);
+        help_map.put(command_name, tool_tip);
     }
 
-    void get_command(String command) {
-        // One liner commands..
-        if (void_function_table.get(command) != null) {
-            void_function_table.get(command).accept(null);
-            return;
-        }
+    // Adds commands that have a string parameter
+    public void addLineCommand(String command_name, Consumer<String[]> func, String tool_tip) {
+        commandTrie.insert(command_name);
+        line_function_table.put(command_name, func);
+        help_map.put(command_name, tool_tip);
+    }
+
+    public void get_command(String command) {
         // One word commands
-        String parsed_command[] = command.split(" ");
+        String parsed_command[] = command.split(" (?=([^\"]*\"[^\"]*\")*[^\"]*$)");
         if (parsed_command.length == 1) {
             if (void_function_table.get(command) != null) {
                 void_function_table.get(command).accept(null);
@@ -49,13 +69,17 @@ public class Command_table {
                 string_function_table.get(parsed_command[0]).accept(parsed_command[1]);
                 return;
             }
+        } else if (parsed_command.length > 2) {
+            if (line_function_table.get(parsed_command[0]) != null) {
+                line_function_table.get(parsed_command[0]).accept(parsed_command);
+                return;
+            }
         }
         // This command doesn't make sense do you have another command in mind?
         command_auto_complete(command);
-
     }
 
-    void command_auto_complete(String command) {
+    public void command_auto_complete(String command) {
         ArrayList<String> retval = commandTrie.autoComplete(command);
         // If not empty then there's probably a mistake..
         if (!retval.isEmpty()) {
@@ -68,11 +92,22 @@ public class Command_table {
         System.out.println("Unknown command use \"HELP\" to look at avaliable commands.");
     }
 
+    // Void help command..
     void help(Void v) {
         System.out.println("These are the commands avaliable: ");
         ArrayList<String> retval = commandTrie.getAllWords();
         for (String str : retval) {
             System.out.println(": " + str);
         }
+    }
+
+    // String help command..
+    void help(String str) {
+        // Add did you mean here..
+        if (help_map.get(str) == null) {
+            command_auto_complete(str);
+            return;
+        }
+        System.out.println(help_map.get(str));
     }
 }

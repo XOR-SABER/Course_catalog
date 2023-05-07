@@ -1,6 +1,13 @@
+package Datatypes;
+
 public class Course {
+    private String courseId;
+    private String courseName;
+    private Transfer transferability;
+    private float units;
+
     // I do like java's enums.. a bit more than C++'s
-    public enum Transfer {
+    public static enum Transfer {
         NON_TRANSFERABLE("", 0),
         CSU_TRANSFERABLE("Transferable to CSU only", 1),
         UC_TRANSFERABLE("Transferable to UC only", 2),
@@ -23,10 +30,8 @@ public class Course {
         }
     }
 
-    private String courseId;
-    private String courseName;
-    private Transfer transferability;
-    private float units;
+    public Course() {
+    }
 
     public Course(String line) {
         String[] arr = line.split(",");
@@ -69,6 +74,22 @@ public class Course {
 
     public float getUnits() {
         return units;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public void setTransferability(Transfer transferability) {
+        this.transferability = transferability;
+    }
+
+    public void setUnits(float units) {
+        this.units = units;
     }
 
     @Override

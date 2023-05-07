@@ -1,3 +1,5 @@
+package Datatypes.DataStructures;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,12 +12,12 @@ public class Trie {
     }
 
     private TrieNode root;
-    
+
     private void getAllWords(TrieNode current, StringBuilder sb, ArrayList<String> words) {
         if (current.isEndOfWord) {
             words.add(sb.toString());
         }
-        
+
         for (char c : current.nodeMap.keySet()) {
             char d = Character.toUpperCase(c);
             sb.append(d);
@@ -49,7 +51,7 @@ public class Trie {
     public Trie() {
         root = new TrieNode();
     }
-    
+
     public void insert(String word) {
         TrieNode curr = root;
         for (char c : word.toCharArray()) {
@@ -61,7 +63,7 @@ public class Trie {
         }
         curr.isEndOfWord = true;
     }
-    
+
     public boolean search(String word) {
         TrieNode curr = root;
         for (char c : word.toCharArray()) {
@@ -73,7 +75,7 @@ public class Trie {
         }
         return curr.isEndOfWord;
     }
-    
+
     public boolean startsWith(String prefix) {
         TrieNode curr = root;
         for (char c : prefix.toCharArray()) {
@@ -99,7 +101,7 @@ public class Trie {
         collectWords(curr, new StringBuilder(prefix), words);
         return words;
     }
-    
+
     private void collectWords(TrieNode node, StringBuilder sb, ArrayList<String> words) {
         if (node.isEndOfWord) {
             words.add(sb.toString());
@@ -110,15 +112,15 @@ public class Trie {
             sb.deleteCharAt(sb.length() - 1);
         }
     }
-    
+
     public void delete(String word) {
         delete(root, word, 0);
     }
-    
+
     public void clear() {
         root = new TrieNode();
     }
-    
+
     public ArrayList<String> getAllWords() {
         ArrayList<String> words = new ArrayList<>();
         getAllWords(root, new StringBuilder(), words);
