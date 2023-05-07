@@ -94,10 +94,10 @@ public class CommandTable {
 
     // Void help command..
     void help(Void v) {
-        System.out.println("These are the commands avaliable: ");
+        System.out.println("These are the commands avaliable: Try HELP {command names}!");
         ArrayList<String> retval = commandTrie.getAllWords();
         for (String str : retval) {
-            System.out.println(": " + str);
+            System.out.println("\t" + str);
         }
     }
 

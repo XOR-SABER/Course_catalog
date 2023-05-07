@@ -40,7 +40,6 @@ import Datatypes.Course.Transfer;
 // Loads student from .csv from a path
 // : DROP STUDENT {ID} : DONE
 // Removes a student from the data base
-
 // STUDENT_REPORT {ID} : DONE
 // Prints a report of student's progress
 // : PRINT STUDENT DATABASE REPORT : DONE
@@ -56,6 +55,8 @@ public class CommandPrompt {
         CourseCatalog = new CourseDatabase(fileName);
         StudentDb = new StudentDatabase();
         intialize_commands();
+        System.out.println(
+                "WELCOME TO COURSE CATALOG DATABASE SIMULATOR!\nTRY RUNNING THE HELP COMMAND TO SEE YOUR COMMAND OPTIONS!\n");
     }
 
     public void run() {
