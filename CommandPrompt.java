@@ -13,38 +13,6 @@ import Datatypes.Student;
 import Datatypes.StudentDatabase;
 import Datatypes.Course.Transfer;
 
-// Sintax for commands 
-// Example 
-// : LOOKUP : DONE
-// Starts the lookup function for courses 
-// : EXIT : DONE 
-// Exits the program
-// : HELP : DONE 
-// Prints out the commands avaliable 
-// PRINT CATALOG : DONE
-// Prints out the catalog
-// PRINT {DEPARTMENT} : DONE
-// Prints out all courses in a department..
-// LOOKUP {COURSE ID} : DONE 
-// : HELP {COMMAND} : DONE 
-// Prints out the use of that command.. 
-// : ADD STUDENT {NAME} {DOB} {ID} : DONE 
-// This is around length of 5
-// LOOKUP {STUDENT ID} : DONE
-// : ADD COURSE {COURSE ID} {UNITS} {TRANSFER CODE} "COURSE NAME" : DONE
-// This is around length of 6
-// ENROLL {STUDENT ID} {COURSE ID} : DONE
-// : SAVE STUDENTS {File name}  : DONE
-// Saves database to .csv
-// : LOAD STUDENTS {PATH} : DONE
-// Loads student from .csv from a path
-// : DROP STUDENT {ID} : DONE
-// Removes a student from the data base
-// STUDENT_REPORT {ID} : DONE
-// Prints a report of student's progress
-// : PRINT STUDENT DATABASE REPORT : DONE
-// UNENROLL {STUDENT ID} {COURSE ID} : DONE
-
 public class CommandPrompt {
     private CourseDatabase CourseCatalog;
     private StudentDatabase StudentDb;
@@ -61,7 +29,7 @@ public class CommandPrompt {
 
     public void run() {
         while (true) {
-            String command = get_input();
+            String command = getInput();
             commands.get_command(command);
         }
     }
@@ -72,7 +40,7 @@ public class CommandPrompt {
                 "LOOKUP", this::courseLookupVoid,
                 "LOOKUP: runs the LOOKUP function.\nGood for looking for courses.");
         commands.addStringCommand(
-                "EXIT", this::end_program,
+                "EXIT", this::endProgram,
                 "EXIT: Exits the program.\nAdd save to exit save the database\nExample:\nEXIT\nEXIT SAVE");
         commands.addStringCommand(
                 "PRINT", this::print,
@@ -81,10 +49,10 @@ public class CommandPrompt {
                 "LOOKUP", this::LookupString,
                 "LOOKUP: Looks up a object in a database and prints it.\nExample:\nLOOKUP {COURSE ID}\nLOOKUP {STUDENT ID}");
         commands.addStringCommand(
-                "STUDENT_REPORT", this::get_report,
+                "STUDENT_REPORT", this::getReport,
                 "STUDENT_REPORT: Makes a student report file.\nExample:\nSTUDENT_REPORT {STUDENT ID}\nSTUDENT_REPORT ALL");
         commands.addLineCommand(
-                "ADD", this::add_object,
+                "ADD", this::addObject,
                 "ADD: adds a course or student using a function.\nExample:\nADD COURSE {COURSE ID} {UNITS} {TRANSFER CODE} \"COURSE NAME\"\nADD STUDENT {NAME} {DOB} {ID}");
         commands.addLineCommand(
                 "ENROLL", this::enroll,
@@ -93,20 +61,20 @@ public class CommandPrompt {
                 "UNENROLL", this::unenroll,
                 "UNENROLL: Unenrolls student to a course.\nremoves course into schedule.\nExample:\nUNENROLL {STUDENT ID} {COURSE ID}");
         commands.addLineCommand(
-                "SAVE", this::save_db,
+                "SAVE", this::saveDb,
                 "SAVE: SAVES A DATABASE TO FILE.\nExample:\nSAVE {DB_NAME} {FILENAME}");
         commands.addLineCommand(
-                "LOAD", this::load_db,
+                "LOAD", this::loadDb,
                 "LOAD: LOADS A DATABASE TO FILE.\nExample:\nLOAD {DB_NAME} {FILENAME}");
         commands.addLineCommand(
-                "DROP", this::drop_data,
+                "DROP", this::dropData,
                 "DROP: Removes student from a database.\nExample:\nDROP STUDENT {STUDENT ID}");
 
     }
 
     void courseLookupVoid(Void v) {
         System.out.print("Please enter a courseID");
-        String id = get_input();
+        String id = getInput();
         Course tmp = CourseCatalog.getData(id);
         if (tmp != null) {
             System.out.println(tmp);
@@ -147,13 +115,12 @@ public class CommandPrompt {
         }
     }
 
-    String get_input() {
+    String getInput() {
         System.out.print(": ");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
             String input = br.readLine();
-            String strUpper = input.toUpperCase();
-            return strUpper;
+            return input;
         } catch (IOException e) {
             System.out.println("exiting program..");
             System.exit(1);
@@ -161,10 +128,10 @@ public class CommandPrompt {
         return null;
     }
 
-    void end_program(String v) {
-        if (v.equals("SAVE")) {
+    void endProgram(String v) {
+        if (v.equals("SAVE") && orginFile != null) {
             String[] arr = { "", "STUDENTS", orginFile };
-            save_db(arr);
+            saveDb(arr);
         }
         System.out.println("Exiting program.. ");
         System.exit(0);
@@ -191,15 +158,15 @@ public class CommandPrompt {
         }
     }
 
-    void add_object(String str[]) {
+    void addObject(String str[]) {
         switch (str[1]) {
             case "STUDENT":
                 if (str.length == 5)
-                    add_student(str);
+                    addStudent(str);
                 break;
             case "COURSE":
                 if (str.length == 6)
-                    add_course(str);
+                    addCourse(str);
                 break;
             default:
                 // Its your fault for being dumb..
@@ -208,7 +175,7 @@ public class CommandPrompt {
         }
     }
 
-    void add_student(String str[]) {
+    void addStudent(String str[]) {
         Student tmp = new Student();
         if (Character.isDigit(str[2].charAt(0))) {
             System.out.println("INVAILD NAME: NO DIGITS ALLOWED");
@@ -224,7 +191,7 @@ public class CommandPrompt {
         StudentDb.addData(tmp.getID(), tmp);
     }
 
-    void add_course(String str[]) {
+    void addCourse(String str[]) {
         Course tmp = new Course();
         if (Character.isDigit(str[2].charAt(0))) {
             System.out.println("INVAILD ID: NO DIGITS ALLOWED");
@@ -288,10 +255,10 @@ public class CommandPrompt {
         StudentDb.addData(temp.getID(), temp);
     }
 
-    void save_db(String[] str) {
+    void saveDb(String[] str) {
         switch (str[1]) {
             case "STUDENTS":
-                StudentDb.save_to_file(str[2]);
+                StudentDb.saveToFile(str[2]);
                 System.out.println("Student database saved..");
                 break;
             case "COURSES":
@@ -305,7 +272,7 @@ public class CommandPrompt {
         return;
     }
 
-    void load_db(String[] str) {
+    void loadDb(String[] str) {
         switch (str[1]) {
             case "STUDENTS":
                 orginFile = str[2];
@@ -323,7 +290,7 @@ public class CommandPrompt {
         return;
     }
 
-    void drop_data(String[] str) {
+    void dropData(String[] str) {
         switch (str[1]) {
             case "STUDENT":
                 StudentDb.removeData(str[2]);
@@ -339,21 +306,21 @@ public class CommandPrompt {
         return;
     }
 
-    void get_report(String str) {
+    void getReport(String str) {
         if (!StudentDb.check(str)) {
             System.out.println("Unknown student..");
             return;
         } else if (str.equals("ALL")) {
             for (Entry<String, Student> entry : StudentDb.getDB().entrySet()) {
-                make_report(entry.getValue());
+                makeReport(entry.getValue());
             }
         } else {
             Student tmpStudent = StudentDb.getData(str);
-            make_report(tmpStudent);
+            makeReport(tmpStudent);
         }
     }
 
-    void make_report(Student tmpStudent) {
+    void makeReport(Student tmpStudent) {
         StringBuffer buff = new StringBuffer();
         buff.append(tmpStudent.toReport() + "\n\n");
         float Total = 0.0f;

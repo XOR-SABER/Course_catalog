@@ -1,0 +1,16 @@
+NEET : DOB: 04/20/2003
+	ID: NE
+
+CIT-82 : INTRODUCTION TO WEB DEVELOPMENT
+	Transferable to CSU only Code: 1
+	Units: 3.000000
+
+CIT-95 : INTRODUCTION TO PYTHON PROGRAMMING
+	Transferable to CSU only Code: 1
+	Units: 4.000000
+
+CIT-63 : BEGINNING JAVA PROGRAMMING
+	Transferable to both UC and CSU Code: 3
+	Units: 4.000000
+
+TOTAL UNITS: 11.0

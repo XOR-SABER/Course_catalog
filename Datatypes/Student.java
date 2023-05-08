@@ -58,17 +58,19 @@ public class Student {
                 _name, _DOB, _ID, String.join(";", schedule));
     }
 
-    public void fromCSV(String csvString) {
+    public void fromCSV(String csvString) throws IllegalArgumentException {
         String[] fields = csvString.split(",");
-        if (fields.length > 4)
-            throw new IllegalArgumentException("INVAILD CSV STRING: " + csvString);
-        if (Character.isDigit(fields[0].charAt(0))) {
-            System.out.println("INVAILD NAME: NO DIGITS ALLOWED");
-            return;
+        if (fields.length < 3 || fields.length > 4) {
+            throw new IllegalArgumentException("INVALID CSV STRING: " + csvString);
         }
-        if (Character.isAlphabetic(fields[1].charAt(0))) {
-            System.out.println("INVAILD DOB: NO CHARS ALLOWED");
-            return;
+        if (fields[0].matches(".*\\d.*")) {
+            throw new IllegalArgumentException("INVALID NAME: NO DIGITS ALLOWED");
+        }
+        if (!fields[1].matches("\\d{2}/\\d{2}/\\d{4}")) {
+            throw new IllegalArgumentException("INVALID DOB FORMAT: DD/MM/YYYY ALLOWED");
+        }
+        if (!fields[2].matches("[A-Za-z0-9]+")) {
+            throw new IllegalArgumentException("INVALID ID FORMAT: ALPHANUMERIC ALLOWED");
         }
         _name = fields[0];
         _DOB = fields[1];
@@ -76,10 +78,11 @@ public class Student {
         if (fields.length == 4) {
             String[] courses = fields[3].split(";");
             schedule.clear();
-            for (String cid : courses)
-                schedule.add(cid);
+            for (String cid : courses) schedule.add(cid);
+            
         }
     }
+    
 
     @Override
     public String toString() {

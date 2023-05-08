@@ -1,9 +1,8 @@
 package Datatypes;
 
-import java.util.function.Consumer;
-
 import Datatypes.DataStructures.Trie;
 
+import java.util.function.Consumer;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.HashMap;
@@ -58,28 +57,33 @@ public class CommandTable {
         // One word commands
         String parsed_command[] = command.split(" (?=([^\"]*\"[^\"]*\")*[^\"]*$)");
         if (parsed_command.length == 1) {
-            if (void_function_table.get(command) != null) {
-                void_function_table.get(command).accept(null);
+            parsed_command[0] = parsed_command[0].toUpperCase();
+            if (void_function_table.get(parsed_command[0]) != null) {
+                void_function_table.get(parsed_command[0]).accept(null);
                 return;
             }
         }
         // Two word commands..
         else if (parsed_command.length == 2) {
+            parsed_command[0] = parsed_command[0].toUpperCase();
+            parsed_command[1] = parsed_command[1].toUpperCase();
             if (string_function_table.get(parsed_command[0]) != null) {
                 string_function_table.get(parsed_command[0]).accept(parsed_command[1]);
                 return;
             }
         } else if (parsed_command.length > 2) {
+            parsed_command[0] = parsed_command[0].toUpperCase();
+            parsed_command[1] = parsed_command[1].toUpperCase();
             if (line_function_table.get(parsed_command[0]) != null) {
                 line_function_table.get(parsed_command[0]).accept(parsed_command);
                 return;
             }
         }
         // This command doesn't make sense do you have another command in mind?
-        command_auto_complete(command);
+        commandAutoComplete(command);
     }
 
-    public void command_auto_complete(String command) {
+    public void commandAutoComplete(String command) {
         ArrayList<String> retval = commandTrie.autoComplete(command);
         // If not empty then there's probably a mistake..
         if (!retval.isEmpty()) {
@@ -105,7 +109,7 @@ public class CommandTable {
     void help(String str) {
         // Add did you mean here..
         if (help_map.get(str) == null) {
-            command_auto_complete(str);
+            commandAutoComplete(str);
             return;
         }
         System.out.println(help_map.get(str));
