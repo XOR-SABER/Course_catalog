@@ -1,16 +1,17 @@
 package Datatypes;
 
-import java.util.ArrayList;
+import java.util.TreeSet;
+import java.util.Set;
 
 // Object oritented programming is such a drag some times.. 
 public class Student {
     private String _name;
     private String _DOB;
     private String _ID;
-    private ArrayList<String> schedule;
+    private Set<String> schedule;
 
     public Student() {
-        schedule = new ArrayList<>();
+        schedule = new TreeSet<>();
     }
 
     public String getName() {
@@ -37,8 +38,14 @@ public class Student {
         this._ID = ID;
     }
 
-    public ArrayList<String> getSchedule() {
+    public Set<String> getSchedule() {
         return schedule;
+    }
+
+    public boolean scheduleCheck(String cid) {
+        if (schedule.contains(cid))
+            return true;
+        return false;
     }
 
     public void add_course(String cid) {
@@ -49,7 +56,7 @@ public class Student {
         return schedule.remove(cid);
     }
 
-    public void setSchedule(ArrayList<String> schedule) {
+    public void setSchedule(Set<String> schedule) {
         this.schedule = schedule;
     }
 
@@ -78,11 +85,11 @@ public class Student {
         if (fields.length == 4) {
             String[] courses = fields[3].split(";");
             schedule.clear();
-            for (String cid : courses) schedule.add(cid);
-            
+            for (String cid : courses)
+                schedule.add(cid);
+
         }
     }
-    
 
     @Override
     public String toString() {

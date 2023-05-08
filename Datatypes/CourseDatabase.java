@@ -26,7 +26,7 @@ public class CourseDatabase extends Database<Course> {
             }
             scanner.close();
         } catch (FileNotFoundException error) {
-            System.out.println("A file error occured...");
+            System.out.println("FILE NOT FOUND!");
             error.printStackTrace();
             // No file exit the program..
             System.exit(1);

@@ -1,0 +1,16 @@
+SEAN : DOB: 01/14/2004
+	ID: ST173
+
+CSCI-40 : PROGRAMMING CONCEPTS AND METHODOLOGY I
+	Transferable to both UC and CSU Code: 3
+	Units: 4.000000
+
+MATH-5A : CALCULUS I
+	Transferable to both UC and CSU Code: 3
+	Units: 5.000000
+
+PHIL-2 : CRITICAL REASONING AND ANALYTIC WRITING
+	Transferable to both UC and CSU Code: 3
+	Units: 3.000000
+
+TOTAL UNITS: 12.0

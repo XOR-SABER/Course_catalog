@@ -15,13 +15,13 @@ import Datatypes.Course.Transfer;
 
 public class CommandPrompt {
     private CourseDatabase CourseCatalog;
-    private StudentDatabase StudentDb;
+    private StudentDatabase studentDb;
     private CommandTable commands;
     private String orginFile;
 
     CommandPrompt(String fileName) {
         CourseCatalog = new CourseDatabase(fileName);
-        StudentDb = new StudentDatabase();
+        studentDb = new StudentDatabase();
         intialize_commands();
         System.out.println(
                 "WELCOME TO COURSE CATALOG DATABASE SIMULATOR!\nTRY RUNNING THE HELP COMMAND TO SEE YOUR COMMAND OPTIONS!\n");
@@ -93,7 +93,7 @@ public class CommandPrompt {
     }
 
     void LookupString(String id) {
-        Student temp = StudentDb.getData(id);
+        Student temp = studentDb.getData(id);
         if (temp != null) {
             System.out.println(temp);
             return;
@@ -138,7 +138,7 @@ public class CommandPrompt {
     }
 
     void print(String str) {
-        Student temp = StudentDb.getData(str);
+        Student temp = studentDb.getData(str);
         if (temp != null) {
             System.out.println(temp);
             return;
@@ -146,7 +146,7 @@ public class CommandPrompt {
             CourseCatalog.printDatabase();
             return;
         } else if (str.equals("DATABASE")) {
-            StudentDb.printDatabase();
+            studentDb.printDatabase();
             return;
         }
 
@@ -188,7 +188,7 @@ public class CommandPrompt {
         tmp.setName(str[2]);
         tmp.setDOB(str[3]);
         tmp.setID(str[4]);
-        StudentDb.addData(tmp.getID(), tmp);
+        studentDb.addData(tmp.getID(), tmp);
     }
 
     void addCourse(String str[]) {
@@ -237,7 +237,7 @@ public class CommandPrompt {
     }
 
     void enroll(String[] star) {
-        Student temp = StudentDb.getData(star[1]);
+        Student temp = studentDb.getData(star[1]);
         if (temp == null)
             return;
         Course tmp = CourseCatalog.getData(star[2]);
@@ -252,13 +252,13 @@ public class CommandPrompt {
             return;
         }
         temp.add_course(tmp.getCourseId());
-        StudentDb.addData(temp.getID(), temp);
+        studentDb.addData(temp.getID(), temp);
     }
 
     void saveDb(String[] str) {
         switch (str[1]) {
             case "STUDENTS":
-                StudentDb.saveToFile(str[2]);
+                studentDb.saveToFile(str[2]);
                 System.out.println("Student database saved..");
                 break;
             case "COURSES":
@@ -276,8 +276,7 @@ public class CommandPrompt {
         switch (str[1]) {
             case "STUDENTS":
                 orginFile = str[2];
-                StudentDb.loadFromFile(str[2]);
-                System.out.println("Student database Loaded..");
+                studentDb.loadFromFile(str[2]);
                 break;
             case "COURSES":
                 System.out.println("Courses aren't supported..");
@@ -293,7 +292,7 @@ public class CommandPrompt {
     void dropData(String[] str) {
         switch (str[1]) {
             case "STUDENT":
-                StudentDb.removeData(str[2]);
+                studentDb.removeData(str[2]);
                 break;
             case "COURSE":
                 System.out.println("Courses aren't supported..");
@@ -307,15 +306,15 @@ public class CommandPrompt {
     }
 
     void getReport(String str) {
-        if (!StudentDb.check(str)) {
+        if (!studentDb.check(str)) {
             System.out.println("Unknown student..");
             return;
         } else if (str.equals("ALL")) {
-            for (Entry<String, Student> entry : StudentDb.getDB().entrySet()) {
+            for (Entry<String, Student> entry : studentDb.getDB().entrySet()) {
                 makeReport(entry.getValue());
             }
         } else {
-            Student tmpStudent = StudentDb.getData(str);
+            Student tmpStudent = studentDb.getData(str);
             makeReport(tmpStudent);
         }
     }
@@ -342,7 +341,7 @@ public class CommandPrompt {
     }
 
     void unenroll(String[] star) {
-        Student temp = StudentDb.getData(star[1]);
+        Student temp = studentDb.getData(star[1]);
         if (temp == null)
             return;
         Course tmp = CourseCatalog.getData(star[2]);
@@ -357,6 +356,6 @@ public class CommandPrompt {
             return;
         }
         temp.remove_course(tmp.getCourseId());
-        StudentDb.addData(temp.getID(), temp);
+        studentDb.addData(temp.getID(), temp);
     }
 }

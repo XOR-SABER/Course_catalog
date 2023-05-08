@@ -26,7 +26,7 @@ public class StudentDatabase extends Database<Student> {
                 if (!current_line.isEmpty()) {
                     Student tmp = new Student();
                     tmp.fromCSV(current_line);
-                    if(check(tmp.getID())) {
+                    if (check(tmp.getID())) {
                         scanner.close();
                         throw new IllegalArgumentException("ID ALREADY EXISTS");
                     }
@@ -34,6 +34,7 @@ public class StudentDatabase extends Database<Student> {
                 }
             }
             scanner.close();
+            System.out.println("Student database Loaded..");
         } catch (FileNotFoundException error) {
             System.out.println("FILE NOT FOUND...");
             error.printStackTrace();
