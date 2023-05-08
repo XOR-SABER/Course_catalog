@@ -1,10 +1,6 @@
 package Datatypes.DataStructures;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Map.Entry;
 
 // This is a custom database data structure
