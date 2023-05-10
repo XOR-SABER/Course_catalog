@@ -28,7 +28,7 @@ public class StudentDatabase extends Database<Student> {
                     tmp.fromCSV(current_line);
                     if (check(tmp.getID())) {
                         scanner.close();
-                        throw new IllegalArgumentException("ID ALREADY EXISTS");
+                        throw new IllegalArgumentException("ID ALREADY EXISTS: " + tmp.getID());
                     }
                     addData(tmp.getID(), tmp);
                 }

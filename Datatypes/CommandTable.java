@@ -9,12 +9,13 @@ import java.util.HashMap;
 
 public class CommandTable {
     // Storing functions in a dictionary of functions for quick access..
+    public Trie commandTrie;
     private TreeMap<String, String> help_map;
+    // I know this is reduntant but type safety..
     private HashMap<String, Consumer<Void>> void_function_table;
     private HashMap<String, Consumer<String>> string_function_table;
     private HashMap<String, Consumer<String[]>> line_function_table;
-    // private HashMap<String, tooltip> help_map;
-    private Trie commandTrie;
+    
 
     public CommandTable() {
         commandTrie = new Trie();

@@ -1,9 +1,12 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Stack;
 import java.util.Map.Entry;
 
 import Datatypes.CommandTable;
@@ -69,6 +72,9 @@ public class CommandPrompt {
         commands.addLineCommand(
                 "DROP", this::dropData,
                 "DROP: Removes student from a database.\nExample:\nDROP STUDENT {STUDENT ID}");
+        commands.addLineCommand(
+                "RUN", this::runScript,
+                "RUN: runs a script at a path,\nwhich is like inputing commands manually, but easier.\nExample:\nRUN THIS {PATH}");
 
     }
 
@@ -357,5 +363,36 @@ public class CommandPrompt {
         }
         temp.remove_course(tmp.getCourseId());
         studentDb.addData(temp.getID(), temp);
+    }
+
+    public void runScript(String ScriptPath[]) {
+        if(!ScriptPath[1].equals("THIS")) return;
+        Stack<String> commandStack = new Stack<>();
+        try {
+            File courseFile = new File(ScriptPath[2]);
+            Scanner scanner = new Scanner(courseFile);
+            while (scanner.hasNextLine()) {
+                String currentLine = scanner.nextLine();
+                if (!currentLine.isEmpty()) {
+                    String[] parsedLine = currentLine.split(" ");
+                    if (!commands.commandTrie.search(parsedLine[0])) {
+                        scanner.close();
+                        throw new IllegalArgumentException("Invalid command: " + parsedLine[0]);
+                    }
+                    commandStack.add(currentLine);
+                }
+            }
+            scanner.close();
+            System.out.println("Script Loaded..");
+        } catch (FileNotFoundException error) {
+            System.out.println("FILE NOT FOUND...");
+            error.printStackTrace();
+            return;
+        }
+        System.out.println("Script excuting..");
+        for (String strings : commandStack) {
+            System.out.println(": " + strings);
+            commands.get_command(strings);
+        }
     }
 }
